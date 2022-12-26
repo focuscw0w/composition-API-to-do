@@ -29,7 +29,7 @@
         />
       </form>
       <div class="input-interface__todos">
-        <ul v-if="currentNavName === 'All' ">
+        <ul v-if="currentNavName === 'All'">
           <li
             class="input-interface__created-todo todo-item"
             v-for="todo in todos"
@@ -46,6 +46,9 @@
             </p>
           </li>
         </ul>
+        <!-- there will be dynamic component 
+          <activeTodos :filteredActiveTodos="filteredActiveTodos" :todos="todos"/>
+        -->
         <ul v-if="currentNavName === 'Active' ">
           <li
             class="input-interface__created-todo todo-item"
@@ -63,7 +66,7 @@
             </p>
           </li>
         </ul>
-        <ul v-if="currentNavName === 'Completed' ">
+        <ul v-if="currentNavName === 'Completed'">
           <li
             class="input-interface__created-todo todo-item"
             v-for="completedTodo in filteredCompletedTodos"
@@ -109,7 +112,10 @@ import { reactive, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 import { onMounted } from "vue";
 
+import activeTodos from "@/assets/components/activeTodos.vue";
+
 export default {
+  components: { activeTodos },
   setup() {
     /* STATE */
     const state = reactive({
@@ -137,11 +143,13 @@ export default {
     });
 
     /* TOGGLE THEME */
+
     const toggleTheme = () => {
       console.log("clicked");
     };
 
     /* ADD TO DO  */
+
     const addToDo = (toDoName) => {
       state.todos.push({ id: state.id, name: toDoName });
       state.id += 1;
@@ -162,6 +170,12 @@ export default {
         (todo) => todo.completed === undefined
       ));
     });
+
+    /* ADD TO COMPLETED */
+
+    const addToCompleted = (todoId) => {
+      state.todos[todoId]["completed"] = true;
+    };
 
     /* COMPLETED TO DO */
 
@@ -186,7 +200,7 @@ export default {
       addToCompleted,
       toggleNavigation,
       filteredActiveTodos,
-      filteredCompletedTodos
+      filteredCompletedTodos,
     };
   },
 };
