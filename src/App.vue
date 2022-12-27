@@ -29,59 +29,14 @@
         />
       </form>
       <div class="input-interface__todos">
-        <ul v-if="currentNavName === 'All'">
-          <li
-            class="input-interface__created-todo todo-item"
-            v-for="todo in todos"
-            @click="addToCompleted(todo.id)"
-            :key="todo.id"
-          >
-            <input
-              type="checkbox"
-              value="{{ todo.name }}"
-              class="input-interface__check"
-            />
-            <p :class="{ completedTask: todos[todo.id].completed }">
-              {{ todo.name }}
-            </p>
-          </li>
-        </ul>
-        <!-- there will be dynamic component 
-          <activeTodos :filteredActiveTodos="filteredActiveTodos" :todos="todos"/>
-        -->
-        <ul v-if="currentNavName === 'Active' ">
-          <li
-            class="input-interface__created-todo todo-item"
-            v-for="activeTodo in filteredActiveTodos"
-            @click="addToCompleted(activeTodo.id)"
-            :key="activeTodo.id"
-          >
-            <input
-              type="checkbox"
-              value="{{ activeToDo.name }}"
-              class="input-interface__check"
-            />
-            <p :class="{ completedTask: todos[activeTodo.id].completed }">
-              {{ activeTodo.name }}
-            </p>
-          </li>
-        </ul>
-        <ul v-if="currentNavName === 'Completed'">
-          <li
-            class="input-interface__created-todo todo-item"
-            v-for="completedTodo in filteredCompletedTodos"
-            @click="addToCompleted(completedTodo.id)"
-            :key="completedTodo.id"
-          >
-            <input
-              type="checkbox"
-              value="{{ activeToDo.name }}"
-              class="input-interface__check"
-            />
-            <p :class="{ completedTask: todos[completedTodo.id].completed }">
-              {{ completedTodo.name }}
-            </p>
-          </li>
+        <ul>
+          <component
+            :is="currentComponent"
+            :todos="todos"
+            :activeTodos="filteredActiveTodos"
+            :completedTodos="filteredCompletedTodos"
+            @addCompletedTodo="addToCompleted($event)"
+          />
         </ul>
         <div v-if="todos.length" class="active-states">
           <span class="active-states__time">5 minutes left</span>
@@ -92,12 +47,15 @@
           >
             <li
               :class="{ active: currentNavIndex == link.id }"
-              @click="toggleNavigation(link.id, link.name)"
+              @click="toggleNavigation(link.id, link.name, link.component)"
             >
               {{ link.name }}
             </li>
           </ul>
-          <button type="submit">Clear Completed</button>
+          <!-- clear with IDs, not with property -->
+          <button type="submit" @click="clearCompletedTodos()">
+            Clear Completed
+          </button>
         </div>
       </div>
     </div>
@@ -110,12 +68,13 @@
 <script>
 import { reactive, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
-import { onMounted } from "vue";
 
+import Todos from "@/assets/components/Todos.vue";
 import activeTodos from "@/assets/components/activeTodos.vue";
+import completedTodos from "@/assets/components/completedTodos.vue";
 
 export default {
-  components: { activeTodos },
+  components: { Todos, activeTodos, completedTodos },
   setup() {
     /* STATE */
     const state = reactive({
@@ -124,18 +83,22 @@ export default {
         {
           id: 0,
           name: "All",
+          component: "Todos",
         },
         {
           id: 1,
           name: "Active",
+          component: "activeTodos",
         },
         {
           id: 2,
           name: "Completed",
+          component: "completedTodos",
         },
       ],
       activeTodos: [],
       completedTodos: [],
+      currentComponent: "Todos",
       toDoName: "",
       currentNavName: "All",
       currentNavIndex: 0,
@@ -171,12 +134,6 @@ export default {
       ));
     });
 
-    /* ADD TO COMPLETED */
-
-    const addToCompleted = (todoId) => {
-      state.todos[todoId]["completed"] = true;
-    };
-
     /* COMPLETED TO DO */
 
     const filteredCompletedTodos = computed(() => {
@@ -186,11 +143,23 @@ export default {
       ));
     });
 
+    /* CLEAR COMPLETED */
+
+    const clearCompletedTodos = () => {
+      //state.todos = state.todos.filter((todo) => todo.completed === undefined);
+    };
+    /* ADD TO COMPLETED */
+
+    const addToCompleted = (todoId) => {
+      state.todos[todoId]["completed"] = true;
+    };
+
     /* TOGGLE CATEGORY */
 
-    const toggleNavigation = (id, name) => {
+    const toggleNavigation = (id, name, component) => {
       state.currentNavIndex = id;
       state.currentNavName = name;
+      state.currentComponent = component;
     };
 
     return {
@@ -201,6 +170,7 @@ export default {
       toggleNavigation,
       filteredActiveTodos,
       filteredCompletedTodos,
+      clearCompletedTodos,
     };
   },
 };

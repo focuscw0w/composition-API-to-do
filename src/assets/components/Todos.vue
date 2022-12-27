@@ -1,17 +1,17 @@
 <template>
   <li
     class="input-interface__created-todo todo-item"
-    v-for="completedTodo in completedTodos"
-    @click="$emit('addCompletedTodo', completedTodo.id)"
-    :key="completedTodo.id"
+    v-for="todo in todos"
+    @click="$emit('addCompletedTodo', todo.id)"
+    :key="todo.id"
   >
     <input
       type="checkbox"
-      value="{{ activeToDo.name }}"
+      value="{{ todo.name }}"
       class="input-interface__check"
     />
-    <p :class="{ completedTask: todos[completedTodo.id].completed }">
-      {{ completedTodo.name }}
+    <p :class="{ completedTask: todos[todo.id].completed }">
+      {{ todo.name }}
     </p>
   </li>
 </template>
