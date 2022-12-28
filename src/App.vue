@@ -1,6 +1,6 @@
 <template class="main">
   <img
-    src="./assets/images/bg-desktop-dark.jpg"
+    :src="require(`@/assets/images/${backgroundImage}`)"
     alt="background"
     class="background-img"
   />
@@ -8,15 +8,16 @@
     <div class="flex-container">
       <h1 class="input-interface__heading">Todo</h1>
       <img
-        src="./assets/images/icon-sun.svg"
+        :src="require(`@/assets/images/${currentThemeIcon}`)"
         alt="sun icon"
         class="theme-setting"
-        @click="toggleTheme"
+        @click="toggleTheme(currentThemeIcon, backgroundImage)"
       />
     </div>
     <div class="input-interface__add-todo">
       <form
         class="input-interface__form todo-item"
+        :class="{ 'bg-dark': darkTheme, 'bg-light': !darkTheme }"
         action="submit"
         @submit.prevent="addToDo(toDoName)"
       >
@@ -24,6 +25,7 @@
         <input
           type="text"
           class="input-interface__main-input"
+          :class="{ 'bg-dark-font': darkTheme, 'bg-light-font': !darkTheme }"
           placeholder="Create a new todo..."
           v-model="toDoName"
         />
@@ -62,8 +64,16 @@
       </div>
     </div>
   </article>
-  <div class="background-theme">
-    <p class="app-guide">Drag and drop to reorder list</p>
+  <div
+    class="background-theme"
+    :class="{ 'bg-dark': darkTheme, 'bg-light': !darkTheme }"
+  >
+    <p
+      class="app-guide"
+      :class="{ 'app-guide-dark': darkTheme, 'app-guide-light': !darkTheme }"
+    >
+      Drag and drop to reorder list
+    </p>
   </div>
 </template>
 
@@ -98,10 +108,13 @@ export default {
           component: "completedTodos",
         },
       ],
+      darkTheme: true,
       activeTodos: [],
       completedTodos: [],
-      currentComponent: "Todos",
+      backgroundImage: "bg-desktop-dark.jpg",
       toDoName: "",
+      currentThemeIcon: "icon-sun.svg",
+      currentComponent: "Todos",
       currentNavName: "All",
       currentNavIndex: 0,
       id: 0,
@@ -109,8 +122,16 @@ export default {
 
     /* TOGGLE THEME */
 
-    const toggleTheme = () => {
-      console.log("clicked");
+    const toggleTheme = (icon, background) => {
+      state.currentThemeIcon =
+        icon == "icon-moon.svg" ? "icon-sun.svg" : "icon-moon.svg";
+
+      state.backgroundImage =
+        background == "bg-desktop-dark.jpg"
+          ? "bg-desktop-light.jpg"
+          : "bg-desktop-dark.jpg";
+
+      state.darkTheme = !state.darkTheme;
     };
 
     /* ADD TO DO  */
