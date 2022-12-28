@@ -10,7 +10,7 @@
       value="{{ activeToDo.name }}"
       class="input-interface__check"
     />
-    <p :class="{ completedTask: todos[activeTodo.id].completed }">
+    <p>
       {{ activeTodo.name }}
     </p>
   </li>
@@ -19,7 +19,7 @@
 <script>
 export default {
   emits: ["addCompletedTodo"],
-  props: ["todos", "activeTodos", "completedTodos"]
+  props: ["todos", "activeTodos", "completedTodos"],
 };
 </script>
 

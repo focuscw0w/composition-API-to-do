@@ -9,8 +9,9 @@
       type="checkbox"
       value="{{ activeToDo.name }}"
       class="input-interface__check"
+      :checked="completedTodo"
     />
-    <p :class="{ completedTask: todos[completedTodo.id].completed }">
+    <p>
       {{ completedTodo.name }}
     </p>
   </li>
@@ -18,8 +19,8 @@
 
 <script>
 export default {
-    emits: ["addCompletedTodo"],
-    props: ["todos", "activeTodos", "completedTodos"]
+  emits: ["addCompletedTodo"],
+  props: ["todos", "activeTodos", "completedTodos"],
 };
 </script>
 

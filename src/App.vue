@@ -35,11 +35,13 @@
             :todos="todos"
             :activeTodos="filteredActiveTodos"
             :completedTodos="filteredCompletedTodos"
-            @addCompletedTodo="addToCompleted($event)"
+            @addCompletedTodo="toggleCompleted($event)"
           />
         </ul>
         <div v-if="todos.length" class="active-states">
-          <span class="active-states__time">5 minutes left</span>
+          <span class="active-states__time"
+            >{{ filteredActiveTodos.length }} items left</span
+          >
           <ul
             class="active-states__filters"
             v-for="link in todosNav"
@@ -114,7 +116,9 @@ export default {
     /* ADD TO DO  */
 
     const addToDo = (toDoName) => {
-      state.todos.push({ id: state.id, name: toDoName });
+      if (toDoName == "") return;
+
+      state.todos.push({ id: state.id, name: toDoName, completed: false });
       state.id += 1;
       state.toDoName = "";
     };
@@ -130,7 +134,7 @@ export default {
     const filteredActiveTodos = computed(() => {
       state.activeTodos = state.todos;
       return (state.activeTodos = state.todos.filter(
-        (todo) => todo.completed === undefined
+        (todo) => todo.completed === false
       ));
     });
 
@@ -139,19 +143,20 @@ export default {
     const filteredCompletedTodos = computed(() => {
       state.completedTodos = state.todos;
       return (state.completedTodos = state.todos.filter(
-        (todo) => todo.completed !== undefined
+        (todo) => todo.completed === true
       ));
     });
 
     /* CLEAR COMPLETED */
 
     const clearCompletedTodos = () => {
-      //state.todos = state.todos.filter((todo) => todo.completed === undefined);
+      state.todos = state.todos.filter((todo) => todo.completed === false);
     };
+
     /* ADD TO COMPLETED */
 
-    const addToCompleted = (todoId) => {
-      state.todos[todoId]["completed"] = true;
+    const toggleCompleted = (todoId) => {
+      state.todos[todoId].completed = !state.todos[todoId].completed;
     };
 
     /* TOGGLE CATEGORY */
@@ -166,7 +171,7 @@ export default {
       ...toRefs(state),
       addToDo,
       toggleTheme,
-      addToCompleted,
+      toggleCompleted,
       toggleNavigation,
       filteredActiveTodos,
       filteredCompletedTodos,
