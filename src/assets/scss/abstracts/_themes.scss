@@ -14,6 +14,30 @@
     color: $dark-grayish-blue!important;
 }
 
+.input-dark {
+    background-color: $very-dark-desaturated-blue!important;
+}
+
+.input-light {
+    background-color: $very-light-gray!important;
+}
+
+.input-dark.item {
+    border-bottom: 1px solid $very-dark-grayish-blue!important;
+}
+
+.input-light.item {
+    border-bottom: 1px solid $light-grayish-blue!important;
+}
+
+.input-dark-font {
+    color: $light-grayish-blue!important;
+}
+
+.input-light-font {
+    color: $very-dark-grayish-blue!important;
+}
+
 .app-guide-dark {
     color: $dark-grayish-blue!important;
 }

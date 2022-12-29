@@ -15,16 +15,14 @@ body {
 .input-interface {
   & > * {
     font-size: 1em;
-    font-weight: $font-weight-700;
-    color: $light-grayish-blue;
+    font-weight: $font-weight-400;
   }
 }
 
 .input-interface__form {
   input {
     font-size: 1em;
-    font-weight: $font-weight-700;
-    color: $light-grayish-blue;
+    font-weight: $font-weight-400;
   }
 }
 
@@ -33,16 +31,8 @@ body {
   font-size: .9em;
 
   button {
-    font-weight: $font-weight-700;
+    font-weight: $font-weight-400;
     font-size: .9em;
     color: $dark-grayish-blue;
   }
-}
-
-.app-guide {
-  color: $light-grayish-blue;
-}
-
-.completedTask {
-  color: $dark-grayish-blue;
 }

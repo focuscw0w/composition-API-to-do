@@ -1,6 +1,7 @@
 <template>
   <li
     class="input-interface__created-todo todo-item"
+    :class="{ 'input-dark item': darkTheme, 'input-light item': !darkTheme }"
     v-for="completedTodo in completedTodos"
     @click="$emit('addCompletedTodo', completedTodo.id)"
     :key="completedTodo.id"
@@ -11,7 +12,7 @@
       class="input-interface__check"
       :checked="completedTodo"
     />
-    <p>
+    <p :class="{ 'input-dark-font': darkTheme, 'input-light-font': !darkTheme }">
       {{ completedTodo.name }}
     </p>
   </li>
@@ -20,7 +21,7 @@
 <script>
 export default {
   emits: ["addCompletedTodo"],
-  props: ["todos", "activeTodos", "completedTodos"],
+  props: ["todos", "activeTodos", "completedTodos", "darkTheme"],
 };
 </script>
 

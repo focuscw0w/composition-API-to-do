@@ -16,7 +16,6 @@
     display: flex;
     align-items: center;
     gap: 1em;
-    background-color: $very-dark-desaturated-blue;
     padding: 1em;
   }
 
@@ -31,11 +30,11 @@
   .input-interface__todos {
     margin-top: 1em;
     border-radius: 0.4em;
-    background-color: $very-dark-desaturated-blue;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     .input-interface__created-todo {
-      background-color: $very-dark-desaturated-blue;
-      border-bottom: 1px solid $very-dark-grayish-blue;
+      display: flex;
+      align-items: center;
       cursor: pointer;
     }
 
@@ -55,7 +54,7 @@
 
       .active-states__filters {
         display: flex;
-        gap: 1em;
+        gap: 1.5em;
 
         li {
           cursor: pointer;

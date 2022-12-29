@@ -17,7 +17,7 @@
     <div class="input-interface__add-todo">
       <form
         class="input-interface__form todo-item"
-        :class="{ 'bg-dark': darkTheme, 'bg-light': !darkTheme }"
+        :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }"
         action="submit"
         @submit.prevent="addToDo(toDoName)"
       >
@@ -37,19 +37,20 @@
             :todos="todos"
             :activeTodos="filteredActiveTodos"
             :completedTodos="filteredCompletedTodos"
+            :darkTheme="darkTheme"
             @addCompletedTodo="toggleCompleted($event)"
           />
         </ul>
-        <div v-if="todos.length" class="active-states">
+        <div v-if="todos.length" class="active-states" :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }">
           <span class="active-states__time"
             >{{ filteredActiveTodos.length }} items left</span
           >
           <ul
             class="active-states__filters"
-            v-for="link in todosNav"
-            :key="link.id"
           >
             <li
+              v-for="link in todosNav"
+              :key="link.id"
               :class="{ active: currentNavIndex == link.id }"
               @click="toggleNavigation(link.id, link.name, link.component)"
             >
