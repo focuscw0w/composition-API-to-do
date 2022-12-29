@@ -2,18 +2,18 @@
   <li
     class="input-interface__created-todo todo-item"
     :class="{ 'input-dark item': darkTheme, 'input-light item': !darkTheme }"
-    v-for="todo in todos"
-    @click="$emit('addCompletedTodo', todo.id)"
-    :key="todo.id"
+    v-for="activeTodo in activeTodos"
+    @click="$emit('addCompletedTodo', activeTodo.id)"
+    :key="activeTodo.id"
   >
     <input
       type="checkbox"
-      value="{{ todo.name }}"
+      value="{{ activeToDo.name }}"
       class="input-interface__check"
-      :checked="todo.completed"
+      :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }"
     />
     <p :class="{ 'input-dark-font': darkTheme, 'input-light-font': !darkTheme }">
-      {{ todo.name }}
+      {{ activeTodo.name }}
     </p>
   </li>
 </template>

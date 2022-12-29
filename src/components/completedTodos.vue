@@ -10,6 +10,7 @@
       type="checkbox"
       value="{{ activeToDo.name }}"
       class="input-interface__check"
+      :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }"
       :checked="completedTodo"
     />
     <p :class="{ 'input-dark-font': darkTheme, 'input-light-font': !darkTheme }">

@@ -21,7 +21,7 @@
         action="submit"
         @submit.prevent="addToDo(toDoName)"
       >
-        <input type="checkbox" class="input-interface__check" />
+        <input type="checkbox" class="input-interface__check" :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }" />
         <input
           type="text"
           class="input-interface__main-input"
@@ -57,7 +57,6 @@
               {{ link.name }}
             </li>
           </ul>
-          <!-- clear with IDs, not with property -->
           <button type="submit" @click="clearCompletedTodos()">
             Clear Completed
           </button>
@@ -82,9 +81,9 @@
 import { reactive, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 
-import Todos from "@/assets/components/Todos.vue";
-import activeTodos from "@/assets/components/activeTodos.vue";
-import completedTodos from "@/assets/components/completedTodos.vue";
+import Todos from "@/components/Todos.vue";
+import activeTodos from "@/components/activeTodos.vue";
+import completedTodos from "@/components/completedTodos.vue";
 
 export default {
   components: { Todos, activeTodos, completedTodos },
@@ -204,5 +203,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/scss/main.scss";
+@import "@/assets/scss/main.scss";
 </style>

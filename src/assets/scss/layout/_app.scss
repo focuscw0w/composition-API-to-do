@@ -27,6 +27,43 @@
     margin-top: 1.5em;
   }
 
+  .input-interface__check {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    outline: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50% !important;
+    background-color: $very-light-gray;
+    border: 1px solid $light-grayish-blue;
+    cursor: pointer;
+    overflow: hidden;
+
+    &:checked {
+      background-color: $bright-blue !important;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: url(/src/assets/images/icon-check.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: none;
+    }
+
+    &:checked::before {
+      display: block;
+    }
+  }
+
   .input-interface__todos {
     margin-top: 1em;
     border-radius: 0.4em;
@@ -68,6 +105,21 @@
       }
     }
   }
+}
+
+.background-img {
+  position: relative;
+  z-index: -1;
+  width: 100%;
+  height: 350px;
+}
+
+.background-theme {
+  width: 100%;
+  height: 100%;
+  background-color: $very-dark-blue;
+  display: flex;
+  justify-content: center;
 }
 
 .active {
