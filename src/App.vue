@@ -21,7 +21,11 @@
         action="submit"
         @submit.prevent="addToDo(toDoName)"
       >
-        <input type="checkbox" class="input-interface__check" :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }" />
+        <input
+          type="checkbox"
+          class="input-interface__check"
+          :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }"
+        />
         <input
           type="text"
           class="input-interface__main-input"
@@ -41,12 +45,17 @@
             @addCompletedTodo="toggleCompleted($event)"
           />
         </ul>
-        <div v-if="todos.length" class="active-states" :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }">
+        <div
+          v-if="todos.length"
+          class="active-states"
+          :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }"
+        >
           <span class="active-states__time"
             >{{ filteredActiveTodos.length }} items left</span
           >
           <ul
             class="active-states__filters"
+            :class="{ 'input-dark': darkTheme, 'input-light': !darkTheme }"
           >
             <li
               v-for="link in todosNav"
@@ -54,7 +63,7 @@
               :class="{ active: currentNavIndex == link.id }"
               @click="toggleNavigation(link.id, link.name, link.component)"
             >
-              {{ link.name }}
+              <a>{{ link.name }}</a>
             </li>
           </ul>
           <button type="submit" @click="clearCompletedTodos()">
@@ -78,7 +87,7 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "@vue/reactivity";
+import { reactive, ref, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 
 import Todos from "@/components/Todos.vue";
@@ -108,7 +117,6 @@ export default {
           component: "completedTodos",
         },
       ],
-      darkTheme: true,
       activeTodos: [],
       completedTodos: [],
       backgroundImage: "bg-desktop-dark.jpg",
@@ -116,6 +124,7 @@ export default {
       currentThemeIcon: "icon-sun.svg",
       currentComponent: "Todos",
       currentNavName: "All",
+      darkTheme: true,
       currentNavIndex: 0,
       id: 0,
     });
@@ -131,15 +140,15 @@ export default {
           ? "bg-desktop-light.jpg"
           : "bg-desktop-dark.jpg";
 
-      state.darkTheme = !state.darkTheme;
+      state.darkTheme = !state.darkTheme
     };
 
     /* ADD TO DO  */
 
-    const addToDo = (toDoName) => {
-      if (toDoName == "") return;
+    const addToDo = (task) => {
+      if (task == "") return;
 
-      state.todos.push({ id: state.id, name: toDoName, completed: false });
+      state.todos.push({ id: state.id, name: task, completed: false });
       state.id += 1;
       state.toDoName = "";
     };
