@@ -42,7 +42,9 @@
             :activeTodos="filteredActiveTodos"
             :completedTodos="filteredCompletedTodos"
             :darkTheme="darkTheme"
+            :removeIcon="visibleRemoveIcon"
             @addCompletedTodo="toggleCompleted($event)"
+            @removeTask="removeToDo($event)"
           />
         </ul>
         <div
@@ -77,18 +79,20 @@
     class="background-theme"
     :class="{ 'bg-dark': darkTheme, 'bg-light': !darkTheme }"
   >
+  <!--
     <p
       class="app-guide"
       :class="{ 'app-guide-dark': darkTheme, 'app-guide-light': !darkTheme }"
     >
       Drag and drop to reorder list
     </p>
+  -->
   </div>
 </template>
 
 <script>
-import { reactive, ref, toRefs } from "@vue/reactivity";
-import { computed } from "@vue/runtime-core";
+import { reactive, toRefs } from "@vue/reactivity";
+import { computed, onMounted } from "@vue/runtime-core";
 
 import Todos from "@/components/Todos.vue";
 import activeTodos from "@/components/activeTodos.vue";
@@ -97,7 +101,9 @@ import completedTodos from "@/components/completedTodos.vue";
 export default {
   components: { Todos, activeTodos, completedTodos },
   setup() {
+    
     /* STATE */
+
     const state = reactive({
       todos: [],
       todosNav: [
@@ -125,6 +131,7 @@ export default {
       currentComponent: "Todos",
       currentNavName: "All",
       darkTheme: true,
+      visibleRemoveIcon: false,
       currentNavIndex: 0,
       id: 0,
     });
@@ -140,7 +147,7 @@ export default {
           ? "bg-desktop-light.jpg"
           : "bg-desktop-dark.jpg";
 
-      state.darkTheme = !state.darkTheme
+      state.darkTheme = !state.darkTheme;
     };
 
     /* ADD TO DO  */
@@ -153,10 +160,10 @@ export default {
       state.toDoName = "";
     };
 
-    /* REMOVE COMPLETED TO DO */
+    /* REMOVE TO DO */
 
-    const removeCompletedTodos = (id) => {
-      console.log(id);
+    const removeToDo = (id) => {
+      state.todos = state.todos.filter((todo) => todo.id !== id);
     };
 
     /* ACTIVE TO DO */
@@ -185,8 +192,8 @@ export default {
 
     /* ADD TO COMPLETED */
 
-    const toggleCompleted = (todoId) => {
-      state.todos[todoId].completed = !state.todos[todoId].completed;
+    const toggleCompleted = (id) => {
+      state.todos[id].completed = !state.todos[id].completed;
     };
 
     /* TOGGLE CATEGORY */
@@ -203,9 +210,10 @@ export default {
       toggleTheme,
       toggleCompleted,
       toggleNavigation,
+      removeToDo,
+      clearCompletedTodos,
       filteredActiveTodos,
       filteredCompletedTodos,
-      clearCompletedTodos,
     };
   },
 };
